@@ -59,7 +59,7 @@ async function patchUpdateProduct(req, res){
     const { price } = req.body
 
     try {
-        const result = await database.query(`UPDATE products SET price = $1 WHERE id = $2 RETURNING *;`, [price, id])
+        const result = await productsModel.query(`UPDATE products SET price = $1 WHERE id = $2 RETURNING *;`, [price, id])
         res.status(200).send(result.rows[0])
     } catch (error) {
         console.error('Erro ao atualizar o preço do produto:', error)
