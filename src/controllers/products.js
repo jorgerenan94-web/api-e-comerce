@@ -83,7 +83,7 @@ async function getProductName(req, res) {
     const { name } = req.params
 
     try {
-        const result = await database.query(`SELECT * FROM products WHERE name = $1;`, [name])
+        const result = await productsModel.query(`SELECT * FROM products WHERE name = $1;`, [name])
         res.send(result.rows)
     } catch (error) {
         console.error('Erro ao buscar o produto pelo nome:', error)
