@@ -10,25 +10,6 @@ app.use(express.json()) // Middleware para interpretar JSON no body das requisi�
 
 app.use("/", routesProducts)// Usa as rotas definidas no arquivo routes/products.js
 
-
-app.patch("/products/price/:id", async (req, res) => {
-    const { id } = req.params
-    const { price } = req.body
-
-    if(!id || !price){
-        return res.status(400).send({ error: "Preço e id são obrigatórios."})
-    }
-
-    try {
-        const result = await database.query(`UPDATE products SET price = $1 WHERE id = $2 RETURNING *;`, [price, id])
-        res.status(200).send(result.rows[0])
-    } catch (error) {
-        console.error('Erro ao atualizar o preço do produto:', error)
-        res.status(500).send({ error: 'Erro ao atualizar o preço do produto'})
-    }
-
-})
-
 app.get("/products/:id", async (req, res) => {
     const { id } = req.params
     
