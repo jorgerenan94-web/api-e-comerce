@@ -71,7 +71,7 @@ async function getProductId(req, res) {
     const { id } = req.params
 
     try {
-        const result = await database.query(`SELECT * FROM products WHERE id = $1;`, [id])
+        const result = await productsModel.query(`SELECT * FROM products WHERE id = $1;`, [id])
         res.send(result.rows)
     } catch (error) {
         console.error('Erro ao buscar o produto:', error)
