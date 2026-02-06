@@ -78,11 +78,25 @@ async function getProductId(req, res) {
         res.status(500).send({ error: 'Erro ao buscar o produto'})
     }
 }
+
+async function getProductName(req, res) {
+    const { name } = req.params
+
+    try {
+        const result = await database.query(`SELECT * FROM products WHERE name = $1;`, [name])
+        res.send(result.rows)
+    } catch (error) {
+        console.error('Erro ao buscar o produto pelo nome:', error)
+        res.status(500).send({ error: 'Erro ao buscar o produto pelo nome'})
+    }
+    
+}
 module.exports = {// Exporta os controladores para serem usados nas rotas
     getAllProducts,
     createProduct,
     deleteProduct,
     updateProduct,
     patchUpdateProduct,
-    getProductId
+    getProductId,
+    getProductName
 }
