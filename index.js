@@ -10,7 +10,7 @@ app.use(express.json()) // Middleware para interpretar JSON no body das requisiÃ
 
 app.use("/", routesProducts)// Usa as rotas definidas no arquivo routes/products.js
 
-app.get("/products/:id", async (req, res) => {
+app.get("/products/:id", async (req, res) => {// Rota para obter um produto por ID
     const { id } = req.params
     
     if(!id){
