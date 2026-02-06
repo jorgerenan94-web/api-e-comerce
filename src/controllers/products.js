@@ -53,9 +53,23 @@ async function updateProduct(req, res) {
     }
     
 }
+
+async function patchUpdateProduct(req, res){
+    const { id } = req.params
+    const { price } = req.body
+
+    try {
+        const result = await database.query(`UPDATE products SET price = $1 WHERE id = $2 RETURNING *;`, [price, id])
+        res.status(200).send(result.rows[0])
+    } catch (error) {
+        console.error('Erro ao atualizar o preço do produto:', error)
+        res.status(500).send({ error: 'Erro ao atualizar o preço do produto'})
+    }
+}
 module.exports = {// Exporta os controladores para serem usados nas rotas
     getAllProducts,
     createProduct,
     deleteProduct,
-    updateProduct
+    updateProduct,
+    patchUpdateProduct
 }
