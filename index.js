@@ -10,23 +10,6 @@ app.use(express.json()) // Middleware para interpretar JSON no body das requisi�
 
 app.use("/", routesProducts)// Usa as rotas definidas no arquivo routes/products.js
 
-app.get("/products/:id", async (req, res) => {// Rota para obter um produto por ID
-    const { id } = req.params
-    
-    if(!id){
-        return res.status(400).send({ error: "O id é obrigatório."})
-    }
-
-    try {
-        const result = await database.query(`SELECT * FROM products WHERE id = $1;`, [id])
-        res.send(result.rows)
-    } catch (error) {
-        console.error('Erro ao buscar o produto:', error)
-        res.status(500).send({ error: 'Erro ao buscar o produto'})
-    }
-    
-})
-
 app.get("/products/name/:name", async (req,res) =>{
     const { name } = req.params
 

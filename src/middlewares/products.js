@@ -46,6 +46,8 @@ function validadeGetIdProduct(req, res, next){
     if(!id){
         return res.status(400).send({ error: "O id é obrigatório."})
     }
+
+    next()
 }
 module.exports = {// Exporta as funções de middleware
     validadeCreateProduct,
