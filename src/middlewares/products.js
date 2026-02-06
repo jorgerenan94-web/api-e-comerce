@@ -49,10 +49,21 @@ function validadeGetIdProduct(req, res, next){
 
     next()
 }
+
+function validadeGetNameProduct(req, res, next){
+    const { name } = req.params
+
+     if(!name){
+        return res.status(400).send({ error: "O nome é obrigatório."})
+    }
+
+    next()
+}
 module.exports = {// Exporta as funções de middleware
     validadeCreateProduct,
     validadeDeleteProduct,
     validadeUpdateProduct,
     validadePatchUpdateProduct,
-    validadeGetIdProduct
+    validadeGetIdProduct,
+    validadeGetNameProduct
 }
