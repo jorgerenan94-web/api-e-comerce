@@ -8,5 +8,6 @@ router.get("/products", productsController.getAllProducts)// Define a rota GET /
 router.post("/products", productsMiddleware.validadeCreateProduct, productsController.createProduct)// Define a rota POST /products para criar um novo produto, usando o middleware de validação e o controlador createProduct
 router.delete("/products/:id", productsMiddleware.validadeDeleteProduct, productsController.deleteProduct)
 router.put("/products/:id", productsMiddleware.validadeUpdateProduct, productsController.updateProduct)
+router.patch("/products/price/:id", productsMiddleware.validadePatchUpdateProduct, productsController.patchUpdateProduct)
 
 module.exports = router;
