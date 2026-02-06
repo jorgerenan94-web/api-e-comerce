@@ -39,9 +39,18 @@ function validadePatchUpdateProduct(req, res, next){
 
     next()
 }
+
+function validadeGetIdProduct(req, res, next){
+    const { id } = req.params
+    
+    if(!id){
+        return res.status(400).send({ error: "O id é obrigatório."})
+    }
+}
 module.exports = {// Exporta as funções de middleware
     validadeCreateProduct,
     validadeDeleteProduct,
     validadeUpdateProduct,
-    validadePatchUpdateProduct
+    validadePatchUpdateProduct,
+    validadeGetIdProduct
 }
