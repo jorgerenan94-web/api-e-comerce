@@ -28,8 +28,17 @@ function validadeUpdateProduct(req, res, next){
 
     next()
 }
+
+function validadePatchUpdateProduct(req, res, next){
+    if(!id || !price){
+        return res.status(400).send({ error: "Preço e id são obrigatórios."})
+    }
+
+    next()
+}
 module.exports = {// Exporta as funções de middleware
     validadeCreateProduct,
     validadeDeleteProduct,
-    validadeUpdateProduct
+    validadeUpdateProduct,
+    validadePatchUpdateProduct
 }
