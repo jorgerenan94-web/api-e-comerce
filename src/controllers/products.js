@@ -21,8 +21,8 @@ async function createProduct(req, res) {// Controlador para criar um novo produt
     const { name, price, category_id } = req.body
 
     try {    
-        const result = await productsModel.query(`INSERT INTO products (name, price, category_id) VALUES ($1, $2, $3) RETURNING *;`, [name, price, category_id])// Consulta para inserir um novo produto e retornar o produto criado
-        res.status(201).send(result.rows[0])// Envia o produto criado como resposta
+        const result = await productsModel.create({ name, price, category_id }) 
+        res.status(201).send(result)// Envia o produto criado como resposta
     } catch (error) {
         console.error('Erro ao criar produto:', error)
         res.status(500).send({ error: 'Erro ao criar produto'})
