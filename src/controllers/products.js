@@ -33,8 +33,14 @@ async function deleteProduct(req, res) {// Controlador para deletar um produto
     const { id } = req.params
 
     try {
-        const result = await productsModel.query(`DELETE FROM products WHERE id = $1 RETURNING*;`, [id])
-        res.status(200).send(result.rows[0])
+        const result = await productsModel.destroy({ 
+            where: {id}
+        })
+
+        if(result === 0){
+            return res.status(400).send( {message:`Produto com Id ${id} não encontrado controller.`})  
+        }
+        res.status(200).send({ message: `Produto com Id ${id} deletado com sucesso.`})
     } catch (error) {
         console.error('Erro ao deletar produto:', error)
         res.status(500).send({ error: 'Erro ao deletar produto'})
@@ -47,8 +53,8 @@ async function updateProduct(req, res) {
     const { name, price, category_id} = req.body
 
     try {
-        const result = await productsModel.query(`UPDATE products SET name = $1, price = $2, category_id = $3 WHERE id = $4 RETURNING *;`, [name, price, category_id, id])
-        res.status(200).send(result.rows[0])
+        const result = await productsModel.update({name, price, category_id}, {where: { id }})
+        res.status(200).send({ message: `Produto com o ${id} atualizado com sucesso.`})
     } catch (error) {
         console.error('Erro ao atualizar produto:', error)
         res.status(500).send({ error: 'Erro ao atualizar produto'})

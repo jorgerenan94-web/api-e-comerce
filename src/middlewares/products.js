@@ -1,3 +1,5 @@
+const productsModel = require("../models/products");
+
 function validadeCreateProduct(req, res, next){// Middleware para validar os dados ao criar um produto
     const { name, price, category_id } = req.body// Extrai os dados do corpo da requisição
 
@@ -8,14 +10,24 @@ function validadeCreateProduct(req, res, next){// Middleware para validar os dad
     next()
 }
 
-function validadeDeleteProduct(req, res, next){// Middleware para validar os dados ao deletar um produto
+async function validadeDeleteProduct(req, res, next){// Middleware para validar os dados ao deletar um produto
+    const { id } = req.params    
+    const product = await productsModel.findByPk(id)
+
+    if(!product){
+        return res.status(404).send({ message: `Produto com Id ${id} não encontrado middleware.`})
+    }
+    next()// Continua para o próximo middleware ou controlador
+}
+
+function validadeDeleteProductNoId(req, res, next){
     const { id } = req.params
     
     if(!id){
         return res.status(400).send({ error: "O id é obrigatório."})
     }
 
-    next()// Continua para o próximo middleware ou controlador
+    next()
 }
 
 function validadeUpdateProduct(req, res, next){
@@ -62,6 +74,7 @@ function validadeGetNameProduct(req, res, next){
 module.exports = {// Exporta as funções de middleware
     validadeCreateProduct,
     validadeDeleteProduct,
+    validadeDeleteProductNoId,
     validadeUpdateProduct,
     validadePatchUpdateProduct,
     validadeGetIdProduct,
