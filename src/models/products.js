@@ -1,17 +1,29 @@
-const productsModel = require ("../config/database");
+const sequelize = require("../config/sequelize");
+const { DataTypes } = require("sequelize");
 
-const sql = `
-    CREATE TABLE IF NOT EXISTS products (
-        id SERIAL PRIMARY KEY,
-        name VARCHAR(100) NOT NULL,
-        price DECIMAL(10, 2) NOT NULL,
-        category_id INT,
-        FOREIGN KEY (category_id) REFERENCES categories(id)
-    );
-`;
+const products = sequelize.define("products", {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    price: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false
+    },
+    category_id: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'categories',
+            key: 'id'
+        }
+    }
+}, {
+    timestamps: false
+})
 
-productsModel.query(sql)
-    .then(() => console.log("Tabela 'products' criada com sucesso!"))
-    .catch((err) => console.error("Erro ao criar tabela 'products':", err));
-
-module.exports = productsModel;
+module.exports = products;

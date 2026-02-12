@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");// Importa o framework Express
-const database = require("./src/config/database");
 const routesProducts = require("./src/routes/products");
+require("./src/models");
 
 const app = express();// Cria uma instância do aplicativo Express
 const port = 4505;// Define a porta onde o servidor irá rodar
