@@ -2,13 +2,15 @@ const productsModel = require("../models/products");// Importa o modelo de produ
 
 async function getAllProducts(req, res){// Controlador para obter todos os produtos
      try {
-        const result = await productsModel.query(`SELECT * FROM products ORDER BY id DESC;`)// Consulta para selecionar todos os produtos ordenados por ID decrescente
+        const result = await productsModel.findAll({
+            order:[['id', 'DESC']]
+        })
         
-        if(result.rows.length === 0){
+        if(!result){
             return res.status(404).send({ message: 'Nenhum produto encontrado'})
         }
 
-        res.status(200).send(result.rows)// Envia os dados dos produtos como resposta
+        res.status(200).send(result)
     } catch (error) {
         console.error('Erro ao buscar produtos:', error);
         res.status(500).send({ error: 'Erro ao buscar produtos' })
