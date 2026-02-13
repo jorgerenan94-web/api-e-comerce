@@ -10,6 +10,6 @@ router.delete("/products/:id", productsMiddleware.validadeDeleteProduct, product
 router.put("/products/:id", productsMiddleware.validadeUpdateProduct, productsController.updateProduct)
 router.patch("/products/price/:id", productsMiddleware.validadePatchUpdateProduct, productsController.patchUpdateProduct)
 router.get("/products/:id", productsMiddleware.validadeGetIdProduct, productsController.getProductId)
-router.get("/products/name/:name", productsMiddleware.validadeGetNameProduct, productsController.getProductName)
+//router.get("/products/name/:name", productsMiddleware.validadeGetNameProduct, productsController.getProductName)
 router.get("/products/name//:name", productsMiddleware.validadeGetNameProduct, productsController.getNameProducts)
 module.exports = router;
