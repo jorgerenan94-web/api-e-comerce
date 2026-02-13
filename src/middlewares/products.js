@@ -20,7 +20,7 @@ async function validadeDeleteProduct(req, res, next){// Middleware para validar 
     next()// Continua para o próximo middleware ou controlador
 }
 
-function validadeDeleteProductNoId(req, res, next){
+function validadeProductNoId(req, res, next){
     const { id } = req.params
     
     if(!id){
@@ -30,7 +30,7 @@ function validadeDeleteProductNoId(req, res, next){
     next()
 }
 
-function validadeUpdateProduct(req, res, next){
+async function validadeUpdateProduct(req, res, next){
     const { id } = req.params
     const { name, price, category_id} = req.body
 
@@ -38,6 +38,11 @@ function validadeUpdateProduct(req, res, next){
         return res.status(400).send({ error: "Nome, preço, categoria_id e id são obrigatórios."})
     }
 
+    const produto = await validateExistingIdProduct(id)
+
+    if(!produto){
+        return res.status(404).send({ message: `Produto com Id ${id} não encontrado middleware.`})
+    }
     next()
 }
 
@@ -71,10 +76,17 @@ function validadeGetNameProduct(req, res, next){
 
     next()
 }
+
+async function validateExistingIdProduct(id){
+    const product = await productsModel.findByPk(id)
+
+   return product
+
+}
 module.exports = {// Exporta as funções de middleware
     validadeCreateProduct,
     validadeDeleteProduct,
-    validadeDeleteProductNoId,
+    validadeProductNoId,
     validadeUpdateProduct,
     validadePatchUpdateProduct,
     validadeGetIdProduct,
