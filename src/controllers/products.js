@@ -1,4 +1,5 @@
 const productsModel = require("../models/products");// Importa o modelo de produtos para interagir com o banco de dados
+const { Op } = require("sequelize");
 
 async function getAllProducts(req, res){// Controlador para obter todos os produtos
      try {
@@ -67,8 +68,8 @@ async function patchUpdateProduct(req, res){
     const { price } = req.body
 
     try {
-        const result = await productsModel.query(`UPDATE products SET price = $1 WHERE id = $2 RETURNING *;`, [price, id])
-        res.status(200).send(result.rows[0])
+        const result = await productsModel.update({price}, {where: { id }})
+        res.status(200).send({ message: `Produto do id ${id} teve seu preço atualizado para ${price}`})
     } catch (error) {
         console.error('Erro ao atualizar o preço do produto:', error)
         res.status(500).send({ error: 'Erro ao atualizar o preço do produto'})
@@ -79,11 +80,16 @@ async function getProductId(req, res) {
     const { id } = req.params
 
     try {
-        const result = await productsModel.query(`SELECT * FROM products WHERE id = $1;`, [id])
-        res.send(result.rows)
+        const result = await productsModel.findByPk(id)
+
+        if(!result){
+            return res.status(404).send({message: `Produto com o id ${id} não encontrado`})
+        }
+
+        res.status(200).send(result)
     } catch (error) {
-        console.error('Erro ao buscar o produto:', error)
-        res.status(500).send({ error: 'Erro ao buscar o produto'})
+        console.error('Erro ao buscar o produto por id:', error)
+        res.status(500).send({ error: 'Erro ao buscar o produto por id'})
     }
 }
 
@@ -104,8 +110,15 @@ async function getNameProducts(req, res) {
     const { name } = req.params
 
     try {
-        const result = await productsModel.query(`SELECT * FROM products WHERE name ILIKE $1;` ,[`%${name}%`])
-        res.send(result.rows)
+        //const result = await productsModel.query(`SELECT * FROM products WHERE name ILIKE $1;` ,[`%${name}%`])
+        const result = await productsModel.findAll({
+            where: {
+                name: {
+                    [Op.iLike]: `%${name}`
+                }
+            }
+        })
+        res.status(200).send(result)
     } catch (error) {
         console.error('Erro ao buscar os produtos:', error)
         res.status(500).send({ error: 'Erro ao buscar os produtos'})

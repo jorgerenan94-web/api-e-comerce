@@ -46,22 +46,34 @@ async function validadeUpdateProduct(req, res, next){
     next()
 }
 
-function validadePatchUpdateProduct(req, res, next){
+async function validadePatchUpdateProduct(req, res, next){
     const { id } = req.params
     const { price } = req.body
     
-    if(!id || !price){
-        return res.status(400).send({ error: "Preço e id são obrigatórios."})
+    if(!price){
+        return res.status(400).send({ error: "Preço é obrigatórios."})
+    }
+
+    const produto = await validateExistingIdProduct(id)
+
+    if(!produto){
+        return res.status(404).send({ message: `Produto com Id ${id} não encontrado middleware.`})
     }
 
     next()
 }
 
-function validadeGetIdProduct(req, res, next){
+async function validadeGetIdProduct(req, res, next){
     const { id } = req.params
     
     if(!id){
         return res.status(400).send({ error: "O id é obrigatório."})
+    }
+
+    const produto = await validateExistingIdProduct(id)
+
+    if(!produto){
+        return res.status(404).send({ message: `Produto com Id ${id} não encontrado middleware.`})
     }
 
     next()
