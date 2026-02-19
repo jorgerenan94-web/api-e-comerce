@@ -1,4 +1,4 @@
-const productsModel = require("../models/products");// Importa o modelo de produtos para interagir com o banco de dados
+const productsModel = require("../models/legacy/products_2");// Importa o modelo de produtos para interagir com o banco de dados
 const { Op } = require("sequelize");
 
 async function getAllProducts(req, res){// Controlador para obter todos os produtos

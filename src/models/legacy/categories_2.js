@@ -1,4 +1,4 @@
-const sequelize = require("../config/sequelize");// Importa a instância do Sequelize configurada para conectar ao banco de dados
+const sequelize = require("../../config/sequelize");// Importa a instância do Sequelize configurada para conectar ao banco de dados
 const { DataTypes } = require("sequelize");// Importa o objeto DataTypes do Sequelize para definir os tipos de dados dos campos
 
 const categories = sequelize.define("categories",{// Define o modelo de dados para a tabela categories
