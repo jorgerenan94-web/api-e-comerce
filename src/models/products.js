@@ -39,6 +39,18 @@ const Products = sequelize.define("Products",{
     specfications: {
         type: DataTypes.JSON,
         allowNull: true
+    },
+    shipping: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    warranty: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    return_product: {
+        type: DataTypes.STRING,
+        allowNull: false
     }
 })
 
