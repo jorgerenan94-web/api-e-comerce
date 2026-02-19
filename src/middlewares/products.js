@@ -1,4 +1,4 @@
-const productsModel = require("../models/legacy/products_2");
+const productsModel = require("../models/products");
 
 function validadeCreateProduct(req, res, next){// Middleware para validar os dados ao criar um produto
     const { name, price, category_id } = req.body// Extrai os dados do corpo da requisição
