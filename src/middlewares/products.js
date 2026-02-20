@@ -1,4 +1,4 @@
-const productsModel = require("../models/products");
+const { Categories } = require("../models");
 
 async function validadeCreateProduct(req, res, next){// Middleware para validar os dados ao criar um produto
     const { name, price, original_price, category_id, is_new, description, specfications, shipping, warranty, return_policy } = req.body
