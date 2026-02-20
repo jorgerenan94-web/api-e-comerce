@@ -1,106 +1,28 @@
 const productsModel = require("../models/products");
 
-function validadeCreateProduct(req, res, next){// Middleware para validar os dados ao criar um produto
-    const { name, price, category_id } = req.body// Extrai os dados do corpo da requisição
+async function validadeCreateProduct(req, res, next){// Middleware para validar os dados ao criar um produto
+    const { name, price, original_price, category_id, is_new, description, specfications, shipping, warranty, return_policy } = req.body
 
-    if(!name || !price || !category_id){
-        return res.status(400).send({ error: "Nome, preço e categoria_id são obrigatórios."})
+    if( !name || !price || !category_id || !is_new || !shipping || !warranty || !return_policy){
+        return res.status(400).send({ error: "Os campos name, price, category_id, is_new, shipping, warranty, return_policy são obrigatórios."})
     }
 
-    next()
-}
-
-async function validadeDeleteProduct(req, res, next){// Middleware para validar os dados ao deletar um produto
-    const { id } = req.params    
-    const product = await productsModel.findByPk(id)
-
-    if(!product){
-        return res.status(404).send({ message: `Produto com Id ${id} não encontrado middleware.`})
+    if( name.length > 255){
+        return res.status(400).send({ error: "O campo name deve conter no máximo 255 caracteres." })
     }
-    next()// Continua para o próximo middleware ou controlador
-}
-
-function validadeProductNoId(req, res, next){
-    const { id } = req.params
-    
-    if(!id){
-        return res.status(400).send({ error: "O id é obrigatório."})
-    }
-
-    next()
-}
-
-async function validadeUpdateProduct(req, res, next){
-    const { id } = req.params
-    const { name, price, category_id} = req.body
-
-     if(!id || !name || !price || !category_id){
-        return res.status(400).send({ error: "Nome, preço, categoria_id e id são obrigatórios."})
-    }
-
-    const produto = await validateExistingIdProduct(id)
-
-    if(!produto){
-        return res.status(404).send({ message: `Produto com Id ${id} não encontrado middleware.`})
+    try {
+        const category = await Categories.findByPk(category_id)
+        if(!category){
+            return res.status(400).send({ error: "Categoria não encontrada." })
+        }
+    } catch (error) {
+        return res.status(500).send({ error: "Erro ao validar categoria." })
     }
     next()
 }
 
-async function validadePatchUpdateProduct(req, res, next){
-    const { id } = req.params
-    const { price } = req.body
-    
-    if(!price){
-        return res.status(400).send({ error: "Preço é obrigatórios."})
-    }
 
-    const produto = await validateExistingIdProduct(id)
-
-    if(!produto){
-        return res.status(404).send({ message: `Produto com Id ${id} não encontrado middleware.`})
-    }
-
-    next()
-}
-
-async function validadeGetIdProduct(req, res, next){
-    const { id } = req.params
-    
-    if(!id){
-        return res.status(400).send({ error: "O id é obrigatório."})
-    }
-
-    const produto = await validateExistingIdProduct(id)
-
-    if(!produto){
-        return res.status(404).send({ message: `Produto com Id ${id} não encontrado middleware.`})
-    }
-
-    next()
-}
-
-function validadeGetNameProduct(req, res, next){
-    const { name } = req.params
-
-     if(!name){
-        return res.status(400).send({ error: "O nome é obrigatório."})
-    }
-
-    next()
-}
-
-async function validateExistingIdProduct(id){
-    const product = await productsModel.findByPk(id)
-
-   return product
-
-}
 module.exports = {// Exporta as funções de middleware
-    validadeCreateProduct,
-    validadeDeleteProduct,
-    validadeProductNoId,
-    validadeUpdateProduct,
-    validadePatchUpdateProduct,
-    validadeGetIdProduct,
-    validadeGetNameProduct
+    validadeCreateProduct
+   
 }

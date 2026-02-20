@@ -5,7 +5,26 @@ async function getAllProducts(req, res){// Controlador para obter todos os produ
 }
 
 async function createProduct(req, res) {// Controlador para criar um novo produto
-    const { name, price, original_price, category_id, is_new, description, spectications, shipping, warranty, return_policy } = req.body
+    const { name, price, original_price, category_id, is_new, description, specfications, shipping, warranty, return_policy } = req.body
+
+   try {
+     const newProduct = await productsModel.create({
+        name,
+        price,
+        original_price,
+        category_id,
+        is_new,
+        description,
+        specfications,
+        shipping,
+        warranty,
+        return: return_policy
+     })
+
+     res.status(201).send(newProduct)
+   } catch (error) {
+    
+   }
 }
 
 
