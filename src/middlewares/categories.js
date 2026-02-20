@@ -1,4 +1,4 @@
-const Categories = require("../models/categories")
+const { Categories } = require("../models")
 
 async function validateInsertCategory(req, res, next){
     const { name } = req.body
