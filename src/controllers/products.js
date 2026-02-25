@@ -7,10 +7,8 @@ async function getAllProducts(req, res){// Controlador para obter todos os produ
 async function createProduct(req, res) {// Controlador para criar um novo produto
     const { name, price, original_price, category_id, is_new, description, specfications, shipping, warranty, return_policy } = req.body
 
-    console.log("passando pelo controllers", req.body)
    try {
      const newProduct = await productsModel.create({
-        id,
         name,
         price,
         original_price,

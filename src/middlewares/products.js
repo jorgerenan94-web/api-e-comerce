@@ -3,7 +3,7 @@ const { Categories } = require("../models");
 async function validadeCreateProduct(req, res, next){// Middleware para validar os dados ao criar um produto
     const { name, price, original_price, category_id, is_new, description, specfications, shipping, warranty, return_policy } = req.body
 
-    console.log("passando pela middleware")
+    
     if( !name || !price || !category_id || !is_new || !shipping || !warranty || !return_policy){
         return res.status(400).send({ error: "Os campos name, price, category_id, is_new, shipping, warranty, return_policy são obrigatórios."})
     }
@@ -13,7 +13,7 @@ async function validadeCreateProduct(req, res, next){// Middleware para validar 
     }
     try {
         const category = await Categories.findByPk(category_id);
-        
+
         if(!category){
             return res.status(400).send({ error: "Categoria não encontrada." })
         }
