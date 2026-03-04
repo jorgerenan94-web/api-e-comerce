@@ -12,7 +12,7 @@ app.use(express.json()) // Middleware para interpretar JSON no body das requisiÃ
 
 app.use("/", routesProducts)// Usa as rotas definidas no arquivo routes/products.js
 app.use("/", routesCategories)
-app.use("/", routesUsers)
+app.use(routesUsers)
 
 app.listen(port, () => {// Inicia o servidor na porta especificada
     console.log(`Servidor rodando na porta ${port}`)// Loga uma mensagem quando o servidor estiver rodando
