@@ -3,6 +3,7 @@ const express = require("express");// Importa o framework Express
 const routesProducts = require("./src/routes/products");
 const routesCategories = require("./src/routes/categories");
 const routesUsers = require("./src/routes/users");
+const routesAuth = require("./src/routes/auth");
 require("./src/models");
 
 const app = express();// Cria uma instÃ¢ncia do aplicativo Express
@@ -13,6 +14,7 @@ app.use(express.json()) // Middleware para interpretar JSON no body das requisiÃ
 app.use("/", routesProducts)// Usa as rotas definidas no arquivo routes/products.js
 app.use("/", routesCategories)
 app.use(routesUsers)
+app.use(routesAuth)
 
 app.listen(port, () => {// Inicia o servidor na porta especificada
     console.log(`Servidor rodando na porta ${port}`)// Loga uma mensagem quando o servidor estiver rodando
