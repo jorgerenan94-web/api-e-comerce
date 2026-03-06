@@ -4,12 +4,14 @@ const routesProducts = require("./src/routes/products");
 const routesCategories = require("./src/routes/categories");
 const routesUsers = require("./src/routes/users");
 const routesAuth = require("./src/routes/auth");
+const cors = require("cors")
 require("./src/models");
 
 const app = express();// Cria uma instância do aplicativo Express
 const port = 4505;// Define a porta onde o servidor irá rodar
 
 app.use(express.json()) // Middleware para interpretar JSON no body das requisições
+app.use(cors())
 
 app.use("/", routesProducts)// Usa as rotas definidas no arquivo routes/products.js
 app.use("/", routesCategories)
