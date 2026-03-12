@@ -1,4 +1,5 @@
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
+const { Users } = require("../models");
 
 function authToken() {
     return async (req, res, next) => {
@@ -13,6 +14,22 @@ function authToken() {
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
+            const user = await Users.findByPk(decoded.id)
+
+            if(!user){
+                return res.status(401).send({
+                    error: "Usuário não encontrado!"
+                })
+            }
+
+            if(!user.active){
+                return res.status(401).send({
+                    error: "Usuário inativo!"
+                })
+            }
+
+            req.user = user;
+
             next()
         } catch (error) {
             return res.status(401).send({
@@ -20,4 +37,8 @@ function authToken() {
             })
         }
     }
+}
+
+module.exports = {
+    authToken
 }
