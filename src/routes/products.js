@@ -8,6 +8,6 @@ const { authToken } = require("../middlewares/authToken");
 router.get("/productsAll",
     authToken(), 
     productsController.getAllProducts)// Define a rota GET /products para obter todos os produtos usando o controlador getAllProducts
-router.post("/products", productsMiddleware.validadeCreateProduct, productsController.createProduct)// Define a rota POST /products para criar um novo produto, usando o middleware de validação e o controlador createProduct
+router.post("/products", authToken(), productsMiddleware.validadeCreateProduct, productsController.createProduct)// Define a rota POST /products para criar um novo produto, usando o middleware de validação e o controlador createProduct
 
 module.exports = router;
