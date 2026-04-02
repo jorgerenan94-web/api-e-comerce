@@ -1,6 +1,20 @@
 const { Categories } = require("../models");
+const multer = require("multer")
+
+const upload = multer({ storage: multer.memoryStorage()})
 
 async function validadeCreateProduct(req, res, next){// Middleware para validar os dados ao criar um produto
+    
+    await new Promise((resolve, reject) => {
+        upload.any("images", 5)(req, res, (err) => {
+            if(err){
+                reject(err)
+            }else{
+                resolve()
+            }
+        })
+    })
+
     const { name, price, original_price, category_id, is_new, description, specfications, shipping, warranty, return_policy } = req.body
 
     
