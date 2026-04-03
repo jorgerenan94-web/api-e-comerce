@@ -5,10 +5,17 @@ const routesCategories = require("./src/routes/categories");
 const routesUsers = require("./src/routes/users");
 const routesAuth = require("./src/routes/auth");
 const cors = require("cors")
+
+require("./src/config/instrument");
+
 require("./src/models");
+
+const Sentry = require("@sentry/node")
 
 const app = express();// Cria uma instância do aplicativo Express
 const port = 4505;// Define a porta onde o servidor irá rodar
+
+Sentry.setupExpressErrorHandler(app)
 
 app.use(express.json()) // Middleware para interpretar JSON no body das requisições
 app.use(cors())
