@@ -4,7 +4,7 @@ const ProductsImages = require("../models/products_images")
 
 async function uploadFileToS3( file ) {
     try {
-        const fileName = `products/${Date.now()}-${file.originalName}`
+        const fileName = `products/${Date.now()}-${file.originalname}`
 
         const command = new PutObjectCommand({
             Bucket: process.env.AWS_S3_BUCKET,
