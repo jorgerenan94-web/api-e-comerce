@@ -1,16 +1,19 @@
 const { Users } = require("../models");
-const emailApi = require("../services/emailApi");
+const {sendEmail} = require("../helpers/email-service");
+const { templateEmail } = require("../templates/welcome-email");
 
 async function createUser(req, res) {
     try {
         await Users.create(req.body);
 
-        await emailApi.post("/email/send", {
-            to: req.body.email,
-            toName: req.body.name,
-            subject: "Bem-vindo ao nosso sistema",
-            html: "<p>Bem-vindo teste</p>"
-        })
+        const template = await templateEmail(req.body.name, "https://youtube.com")
+
+        await sendEmail(
+            req.body.email,
+            req.body.name,
+            "Bem-vindo ao nosso sistema",
+            template
+        )
         
         return res.status(201).send({ 
             message: "Usuário criado com sucesso!" 
