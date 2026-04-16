@@ -1,3 +1,4 @@
+const axios = require("axios");
 const express = require("express");// Importa o módulo Express para criar rotas e lidar com requisições HTTP
 const router = express.Router();// Cria um roteador para definir as rotas relacionadas a produtos
 
